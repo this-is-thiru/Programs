@@ -18,7 +18,6 @@ public class AbsentNumber {
             }
             ans[num] = num;
         }
-
         return ans;
     }
 
