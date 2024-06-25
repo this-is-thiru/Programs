@@ -9,7 +9,7 @@ public class BSTtoLL {
     private static List<Integer> bstToLL(int[] nums) {
         List<Integer> ans = new ArrayList<>();
 
-        for (int num: nums) {
+        for (int num : nums) {
             if (num != -1) {
                 ans.add(num);
             }
