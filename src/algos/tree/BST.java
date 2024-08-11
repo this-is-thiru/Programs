@@ -36,7 +36,7 @@ public class BST {
 
     public void heightOfTree() {
         int heightOfTree = heightOfTree(root);
-        System.out.println("Height of tree is "+ heightOfTree);
+        System.out.println("Height of tree is " + heightOfTree);
     }
 
     private int heightOfTree(Node currentNode) {
@@ -450,6 +450,83 @@ public class BST {
         return compareBinaryTree(root1.left, root2.left) && compareBinaryTree(root1.right, root2.right);
     }
 
+    public void boundaryElements() {
+        if (root == null) {
+            System.out.println("-> Root of tree is null.");
+        }
+
+        List<Integer> boundaryElements = new ArrayList<>();
+        if (isNotLeafNode(root)) {
+            boundaryElements.add(root.data);
+        }
+
+        addLeftNodes(root, boundaryElements);
+        addLeafNodes(root, boundaryElements);
+        addRightNodes(root, boundaryElements);
+
+        System.out.print("-> Boundary view of the tree is: ");
+        boundaryElements.forEach(ele -> System.out.print(ele + " "));
+        System.out.println();
+    }
+
+    private boolean isNotLeafNode(Node node) {
+        if (node.left == node.right) {
+            return node.left != null;
+        }
+        return true;
+    }
+
+    private void addLeftNodes(Node root, List<Integer> numbers) {
+        Node cur = root.left;
+
+        while (cur != null) {
+            if (isNotLeafNode(cur)) {
+                numbers.add(cur.data);
+            }
+
+            if (cur.left != null) {
+                cur = cur.left;
+            } else {
+                cur = cur.right;
+            }
+        }
+    }
+
+    private void addLeafNodes(Node node, List<Integer> numbers) {
+        if (node == null) {
+            return;
+        }
+
+        if (!isNotLeafNode(node)) {
+            numbers.add(node.data);
+        }
+
+        addLeafNodes(node.left, numbers);
+        addLeafNodes(node.right, numbers);
+    }
+
+    private void addRightNodes(Node root, List<Integer> numbers) {
+        Node cur = root.right;
+
+        Stack<Integer> stack = new Stack<>();
+
+        while (cur != null) {
+            if (isNotLeafNode(cur)) {
+                stack.push(cur.data);
+            }
+
+            if (cur.right != null) {
+                cur = cur.right;
+            } else {
+                cur = cur.left;
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            numbers.add(stack.pop());
+        }
+    }
+
     private static BST getTree() {
         BST bst = new BST();
 
@@ -496,6 +573,7 @@ public class BST {
         bst.isBalancedTree();
         bst.diameterOfTree();
         bst.maximumPathSum();
+        bst.boundaryElements();
 
         BST bst1 = getTreeDiff();
         bst.compareBinaryTree(bst1);
