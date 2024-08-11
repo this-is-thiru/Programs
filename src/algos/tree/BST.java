@@ -527,6 +527,37 @@ public class BST {
         }
     }
 
+    public void commonAncestor(int num1, int num2) {
+        int ancestor = commonAncestor(root, num1, num2);
+        String msg = ancestor == -1 ? "No ancestor found for these nodes":"Common ancestor is: "+ancestor;
+        System.out.println("-> "+msg);
+    }
+
+    private int commonAncestor(Node node, int num1, int num2) {
+        if (node == null) {
+            return -1;
+        }
+
+        if (node.data == num1) {
+            return num1;
+        }
+
+        if (node.data == num2) {
+            return num2;
+        }
+
+        int left = commonAncestor(node.left, num1, num2);
+        int right = commonAncestor(node.right, num1, num2);
+
+        if (left != -1 && right != -1) {
+            return node.data;
+        } else if (left != -1) {
+            return left;
+        } else {
+            return right;
+        }
+    }
+
     private static BST getTree() {
         BST bst = new BST();
 
@@ -574,6 +605,7 @@ public class BST {
         bst.diameterOfTree();
         bst.maximumPathSum();
         bst.boundaryElements();
+        bst.commonAncestor(8, 20);
 
         BST bst1 = getTreeDiff();
         bst.compareBinaryTree(bst1);
