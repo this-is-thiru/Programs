@@ -415,6 +415,46 @@ public class BST {
         return Math.max(leftHeight, rightHeight) + 1;
     }
 
+    private void widthOfTree() {
+        int widthOfTree = widthOfTree(this.root);
+        System.out.println(" -> Width of the tree is: " + widthOfTree);
+    }
+
+    private int widthOfTree(Node root) {
+        if (root == null) {
+            return 0;
+        }
+
+        Queue<Helper> queue = new LinkedList<>();
+        Helper helper = new Helper(root, 1, 0);
+        queue.add(helper);
+
+        int prevNumber = 0;
+        int prevLevel = 0;
+        int ans = 0;
+        while (!queue.isEmpty()) {
+            Helper temp = queue.poll();
+
+            if (temp.level > prevLevel) {
+                prevLevel = temp.level;
+                prevNumber = temp.number;
+            }
+
+            ans = Math.max(temp.number - prevNumber + 1, ans);
+
+            if (temp.node.left != null) {
+                Helper left = new Helper(temp.node.left, 2 * temp.number, temp.level + 1);
+                queue.add(left);
+            }
+
+            if (temp.node.right != null) {
+                Helper right = new Helper(temp.node.right, (2 * temp.number) + 1, temp.level + 1);
+                queue.add(right);
+            }
+        }
+        return ans;
+    }
+
     private void maximumPathSum() {
         int maximumPathSum = maximumPathSum(this.root);
         System.out.println("Maximum Path sum of the tree is: " + maximumPathSum);
@@ -529,8 +569,8 @@ public class BST {
 
     public void commonAncestor(int num1, int num2) {
         int ancestor = commonAncestor(root, num1, num2);
-        String msg = ancestor == -1 ? "No ancestor found for these nodes":"Common ancestor is: "+ancestor;
-        System.out.println("-> "+msg);
+        String msg = ancestor == -1 ? "No ancestor found for these nodes" : "Common ancestor is: " + ancestor;
+        System.out.println("-> " + msg);
     }
 
     private int commonAncestor(Node node, int num1, int num2) {
@@ -603,12 +643,24 @@ public class BST {
         bst.heightOfTree();
         bst.isBalancedTree();
         bst.diameterOfTree();
+        bst.widthOfTree();
         bst.maximumPathSum();
         bst.boundaryElements();
         bst.commonAncestor(8, 20);
 
         BST bst1 = getTreeDiff();
         bst.compareBinaryTree(bst1);
+    }
+}
+
+class Helper {
+    Node node;
+    int number, level;
+
+    Helper(Node node, int number, int level) {
+        this.node = node;
+        this.number = number;
+        this.level = level;
     }
 }
 
