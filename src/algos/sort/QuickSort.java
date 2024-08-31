@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class QuickSort {
 
     public static void quickSort(int[] arr, int low, int high) {
-        if (high - low <= 1) {
+        if (high <= low) {
             return;
         }
 
@@ -20,18 +20,18 @@ public class QuickSort {
                 yellow++;
             }
         }
-
+        yellow--;
         int temp = arr[low];
-        arr[low] = arr[yellow - 1];
-        arr[yellow - 1] = temp;
+        arr[low] = arr[yellow];
+        arr[yellow] = temp;
 
-        quickSort(arr, low, yellow - 1);
-        quickSort(arr, yellow, high);
+        quickSort(arr, low, yellow-1);
+        quickSort(arr, yellow + 1, high);
     }
 
     public static void main(String[] args) {
 
-        int[] arr = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 4, 5, 6, 7, 8, 9, 10 };
+        int[] arr = {110, 100, 0};
         int low = 0;
         int high = arr.length - 1;
         quickSort(arr, low, high);

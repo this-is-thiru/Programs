@@ -5,43 +5,39 @@ import java.util.Arrays;
 public class MergeSort {
 
     public static void merge(int[] arr, int low, int mid, int high) {
-
         int[] temp = new int[high - low + 1];
+        int count = 0;
         int i = low;
         int j = mid + 1;
-        int k = 0;
-
         while (i <= mid && j <= high) {
-            if (arr[i] < arr[j]) {
-                temp[k] = arr[i];
+            if (arr[i] <= arr[j]) {
+                temp[count] = arr[i];
                 i++;
             } else {
-                temp[k] = arr[j];
+                temp[count] = arr[j];
                 j++;
             }
-            k++;
+            count++;
         }
         while (i <= mid) {
-            temp[k] = arr[i];
+            temp[count] = arr[i];
             i++;
-            k++;
+            count++;
         }
         while (j <= high) {
-            temp[k] = arr[j];
+            temp[count] = arr[j];
             j++;
-            k++;
+            count++;
         }
-        for (int l = 0; l < temp.length; l++) {
-            arr[l + low] = temp[l];
+        for (int k = low; k <= high; k++) {
+            arr[k] = temp[k - low];
         }
     }
 
     public static void mergeSort(int[] arr, int low, int high) {
-
-        if (high == low) {
+        if (low == high) {
             return;
         }
-
         int mid = (low + high) / 2;
         mergeSort(arr, low, mid);
         mergeSort(arr, mid + 1, high);
@@ -50,7 +46,7 @@ public class MergeSort {
 
     public static void main(String[] args) {
 
-        int[] arr = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 4, 5, 6, 7, 8, 9, 10 };
+        int[] arr = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 4, 5, 6, 7, 8, 9, 10};
         int low = 0;
         int high = arr.length - 1;
         mergeSort(arr, low, high);

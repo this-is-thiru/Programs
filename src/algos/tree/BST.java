@@ -105,23 +105,22 @@ public class BST {
 
         Map<Integer, Integer> levelNodes = new HashMap<>();
 
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(currentNode);
+        Queue<Helper> queue = new LinkedList<>();
+        queue.add(new Helper(currentNode, 0));
 
         while (!queue.isEmpty()) {
-            Node temp = queue.poll();
+            Helper cur = queue.poll();
+            Node temp = cur.node;
 
             if (temp.left != null) {
-                temp.left.hd = temp.hd - 1;
-                queue.add(temp.left);
+                queue.add(new Helper(temp.left, cur.hd - 1));
             }
 
             if (temp.right != null) {
-                temp.right.hd = temp.hd + 1;
-                queue.add(temp.right);
+                queue.add(new Helper(temp.right, cur.hd + 1));
             }
 
-            levelNodes.putIfAbsent(temp.hd, temp.data);
+            levelNodes.putIfAbsent(cur.hd, temp.data);
         }
 
         return levelNodes.entrySet().stream().sorted(Map.Entry.comparingByKey()).map(Map.Entry::getValue).toList();
@@ -140,23 +139,22 @@ public class BST {
         }
         Map<Integer, Integer> levelNodes = new HashMap<>();
 
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(currentNode);
+        Queue<Helper> queue = new LinkedList<>();
+        queue.add(new Helper(currentNode, 0));
 
         while (!queue.isEmpty()) {
-            Node temp = queue.poll();
+            Helper cur = queue.poll();
+            Node temp = cur.node;
 
             if (temp.left != null) {
-                temp.left.hd = temp.hd - 1;
-                queue.add(temp.left);
+                queue.add(new Helper(temp.left, cur.hd - 1));
             }
 
             if (temp.right != null) {
-                temp.right.hd = temp.hd + 1;
-                queue.add(temp.right);
+                queue.add(new Helper(temp.right, cur.hd + 1));
             }
 
-            levelNodes.put(temp.hd, temp.data);
+            levelNodes.put(cur.hd, temp.data);
         }
 
         return levelNodes.entrySet().stream().sorted(Map.Entry.comparingByKey()).map(Map.Entry::getValue).toList();
@@ -656,11 +654,17 @@ public class BST {
 class Helper {
     Node node;
     int number, level;
+    int hd;
 
     Helper(Node node, int number, int level) {
         this.node = node;
         this.number = number;
         this.level = level;
+    }
+
+    Helper(Node node, int hd) {
+        this.node = node;
+        this.hd = hd;
     }
 }
 
