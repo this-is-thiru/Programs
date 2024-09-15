@@ -58,35 +58,23 @@ public class BST {
     }
 
     public void levelOrder(Node currentNode) {
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(currentNode);
-        queue.add(null);
-
-        int row = 1;
-
+        Queue<Helper> queue = new LinkedList<>();
+        queue.add(new Helper(currentNode, 0, 0));
+        int row = 0;
         while (!queue.isEmpty()) {
-            Node temp = queue.poll();
+            Helper cur = queue.poll();
+            Node temp = cur.node;
 
-            if (temp == null) {
-                if (queue.peek() == null) {
-                    System.out.println(" -> row" + row);
-                    return;
-                } else {
-                    queue.add(null);
-                    System.out.println(" -> row" + row);
-                    row++;
-                    continue;
-                }
+            if (cur.level == row) {
+                System.out.println();
+                row = cur.level+1;
             }
-
             System.out.print(temp.data + " ");
-
             if (temp.left != null) {
-                queue.add(temp.left);
+                queue.add(new Helper(temp.left, 0, cur.level + 1));
             }
-
             if (temp.right != null) {
-                queue.add(temp.right);
+                queue.add(new Helper(temp.right, 0, cur.level + 1));
             }
         }
     }
@@ -319,20 +307,16 @@ public class BST {
 
         List<Integer> postOrder = new ArrayList<>();
         Stack<Node> stack = new Stack<>();
-
         Node current = root;
-
         while (current != null || !stack.isEmpty()) {
             if (current != null) {
                 stack.push(current);
                 current = current.left;
             } else {
                 Node temp = stack.peek().right;
-
                 if (temp == null) {
                     temp = stack.pop();
                     postOrder.add(temp.data);
-
                     while (!stack.isEmpty() && temp == stack.peek().right) {
                         temp = stack.pop();
                         postOrder.add(temp.data);
