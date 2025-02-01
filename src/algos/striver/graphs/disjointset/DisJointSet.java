@@ -22,7 +22,7 @@ public class DisJointSet {
         System.out.println("No, " + a + ", " + b + " are connected.");
     }
 
-    private int ultimateParent(int u) {
+    int ultimateParent(int u) {
         if (u == parent[u]) {
             return u;
         }
