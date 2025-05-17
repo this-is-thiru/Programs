@@ -1,13 +1,6 @@
 package algos.tree;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 public class BST {
 
@@ -147,7 +140,6 @@ public class BST {
 
         return levelNodes.entrySet().stream().sorted(Map.Entry.comparingByKey()).map(Map.Entry::getValue).toList();
     }
-
 
     public void printLeftView() {
         System.out.println("Printing left view of tree...");
@@ -408,7 +400,7 @@ public class BST {
         }
 
         Queue<Helper> queue = new LinkedList<>();
-        Helper helper = new Helper(root, 1, 0);
+        Helper helper = new Helper(root, 0, 0);
         queue.add(helper);
 
         int prevNumber = 0;
@@ -422,15 +414,15 @@ public class BST {
                 prevNumber = temp.number;
             }
 
-            ans = Math.max(temp.number - prevNumber + 1, ans);
+            ans = Math.max(temp.number - prevNumber+1 , ans);
 
             if (temp.node.left != null) {
-                Helper left = new Helper(temp.node.left, 2 * temp.number, temp.level + 1);
+                Helper left = new Helper(temp.node.left, 2 * temp.number+1, temp.level + 1);
                 queue.add(left);
             }
 
             if (temp.node.right != null) {
-                Helper right = new Helper(temp.node.right, (2 * temp.number) + 1, temp.level + 1);
+                Helper right = new Helper(temp.node.right, (2 * temp.number) + 2, temp.level + 1);
                 queue.add(right);
             }
         }
@@ -614,21 +606,21 @@ public class BST {
 
         BST bst = getTree();
 
-        bst.printInOrder();
-        bst.printPreOrder();
-        bst.printPostOrder();
-        bst.printNodesInEachRow();
-        bst.printLeftView();
-        bst.printRightView();
-        bst.printBottomView();
-        bst.printTopView();
-        bst.heightOfTree();
-        bst.isBalancedTree();
-        bst.diameterOfTree();
+//        bst.printInOrder();
+//        bst.printPreOrder();
+//        bst.printPostOrder();
+//        bst.printNodesInEachRow();
+//        bst.printLeftView();
+//        bst.printRightView();
+//        bst.printBottomView();
+//        bst.printTopView();
+//        bst.heightOfTree();
+//        bst.isBalancedTree();
+//        bst.diameterOfTree();
         bst.widthOfTree();
-        bst.maximumPathSum();
-        bst.boundaryElements();
-        bst.commonAncestor(8, 20);
+//        bst.maximumPathSum();
+//        bst.boundaryElements();
+//        bst.commonAncestor(8, 20);
 
         BST bst1 = getTreeDiff();
         bst.compareBinaryTree(bst1);
